@@ -3,6 +3,17 @@ import { auth, googleProvider } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+// MUI Components
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Divider,
+  Grid,
+} from "@mui/material";
+
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +24,7 @@ export default function Signup() {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard"); // Auto-login & redirect
+      navigate("/dashboard");
     } catch (err) {
       alert(err.message);
     }
@@ -30,32 +41,83 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSignup}>
-        <h2>Sign Up</h2>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Sign Up</button>
-      </form>
+    <Container maxWidth="xs">
+      <Box
+        sx={{
+          mt: 8,
+          p: 4,
+          boxShadow: 3,
+          borderRadius: 3,
+          bgcolor: "#fff",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5" gutterBottom sx={{ color: "#874CCC" }}>
+          Sign Up for an Account
+        </Typography>
 
-      <hr />
+        <form onSubmit={handleSignup} style={{ width: "100%" }}>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{ backgroundColor: "#f4f4f4", borderRadius: 1 }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{ backgroundColor: "#f4f4f4", borderRadius: 1 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              mt: 2,
+              backgroundColor: "#874CCC",
+              "&:hover": { backgroundColor: "#6A34B8" },
+            }}
+          >
+            Sign Up
+          </Button>
+        </form>
 
-      <button onClick={handleGoogleSignup}>
-        Sign up with Google
-      </button>
-        <p>Already have an account? <a href="/">Log in</a></p>
-    </div>
+        <Divider sx={{ width: "100%", my: 2 }}>OR</Divider>
+
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={handleGoogleSignup}
+          sx={{
+            borderColor: "#C65BCF",
+            color: "#C65BCF",
+            "&:hover": {
+              backgroundColor: "#C65BCF",
+              color: "#fff",
+            },
+          }}
+        >
+          Sign up with Google
+        </Button>
+
+        <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+          Already have an account?{" "}
+          <a href="/" style={{ color: "#874CCC", textDecoration: "none" }}>
+            Log in
+          </a>
+        </Typography>
+      </Box>
+    </Container>
   );
 }
